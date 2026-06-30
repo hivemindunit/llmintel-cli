@@ -1,0 +1,62 @@
+name: Release
+
+# Publishes @llmintel/cli to npm with provenance when a `cli-v*` tag is pushed to this PUBLIC repo
+# by the upstream mirror workflow. The tag version must match packages/cli/package.json.
+#
+# Requires an NPM_TOKEN repo secret: an npm *automation* token that is a member of the @llmintel
+# organization with publish access.
+on:
+  push:
+    tags:
+      - "cli-v*"
+
+# Required for npm provenance (OIDC). Provenance is valid here because this repo is public.
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify tag matches package version
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME#cli-v}"
+          pkg=$(node -p "require('./packages/cli/package.json').version")
+          echo "Tag version: $tag"
+          echo "package.json version: $pkg"
+          if [ "$tag" != "$pkg" ]; then
+            echo "::error::Tag ($tag) does not match packages/cli/package.json ($pkg)."
+            exit 1
+          fi
+
+      - name: Typecheck
+        run: pnpm --filter @llmintel/cli run typecheck
+
+      - name: Test
+        run: pnpm vitest run packages/cli
+
+      - name: Build
+        run: pnpm --filter @llmintel/cli run build
+
+      - name: Publish to npm
+        working-directory: packages/cli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
