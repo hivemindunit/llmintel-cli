@@ -7,9 +7,6 @@ looks up their lifecycle state via the [LLMIntel API](https://llmintel.vercel.ap
 non-zero when any referenced model is **retired or past its retirement date** — so you migrate on
 your schedule, not the provider's shutoff date.
 
-> This repository is a public mirror of the `@llmintel/cli` package. It is the published, provenance-backed
-> source for the npm package. Issues and PRs are welcome here.
-
 ## Install
 
 No install required — run it with `npx`:
@@ -118,4 +115,4 @@ A composite action ships alongside the CLI:
 
 ## License
 
-[MIT](./LICENSE)
+MIT

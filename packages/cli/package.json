@@ -1,0 +1,53 @@
+{
+  "name": "@llmintel/cli",
+  "version": "0.2.0",
+  "description": "Fail your CI build when it references retired or soon-to-be-retired AI models. The LLMIntel lifecycle gate.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "llmintel": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "action.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "ai",
+    "llm",
+    "deprecation",
+    "lifecycle",
+    "ci",
+    "cd",
+    "openai",
+    "anthropic",
+    "model"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hivemindunit/llmintel.ai.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://llmintel.vercel.app/docs",
+  "bugs": "https://github.com/hivemindunit/llmintel.ai/issues",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "check": "tsx src/index.ts check",
+    "prepublishOnly": "tsup"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@llmintel/schema": "workspace:*",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
