@@ -25,11 +25,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hivemindunit/llmintel.ai.git",
+    "url": "git+https://github.com/hivemindunit/llmintel-cli.git",
     "directory": "packages/cli"
   },
   "homepage": "https://llmintel.vercel.app/docs",
-  "bugs": "https://github.com/hivemindunit/llmintel.ai/issues",
+  "bugs": "https://github.com/hivemindunit/llmintel-cli/issues",
   "publishConfig": {
     "access": "public"
   },
